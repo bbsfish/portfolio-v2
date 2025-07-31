@@ -20,37 +20,14 @@ export default {
     AppHeader,
     AppFooter,
   },
-  methods: {
-    // createHTMLTitleAndDesc : function(routeInstance){
-    //   //titleを設定する処理
-    //   if(routeInstance.meta?.title){
-    //     var setTitle = routeInstance.meta.title + ' | サイト名など(任意)';
-    //     document.title = setTitle;
-    //   } else {
-    //     document.title = 'ルートでtitleがセットされていない場合に表示するテキスト'
-    //   }
-
-    //   if(routeInstance.meta?.desc){
-    //     var setDesc = routeInstance.meta.desc + ' | 共通表示名';
-    //     document.querySelector("meta[name='description']").setAttribute('content', setDesc)
-    //   } else {
-    //     document.querySelector("meta[name='description']").setAttribute('content', 'ディスクリプションはありません')
-    //   }
-    // }
-  },
   watch: {
     $route(to) {
-      console.log('New Root:', to);
       if (to.hash === '#top') {
         this.$refs.top.scrollIntoView({
           behavior: 'smooth',
         });
       }
     },
-  },
-  async mounted() {
-    console.log('Initial Root:', this.$route);
-    // this.createHTMLTitleAndDesc(this.$route);
   },
 };
 </script>

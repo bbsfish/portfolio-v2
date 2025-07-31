@@ -8,17 +8,13 @@ module.exports = defineConfig({
       title: "細田佳希のポートフォリオ"
     }
   },
-  devServer: {
-    proxy: {
-      // '/api' で始まるリクエストをプロキシの対象にする
-      '/zenn': {
-        // 転送先のURL
-        target: 'https://zenn.dev',
-        // オリジンを転送先に偽装する
-        changeOrigin: true,
-        // パスから '/api' を取り除く
-        pathRewrite: { '^/zenn': '' },
-      },
-    },
-  },
+  // devServer: {
+  //   proxy: {
+  //     '/zenn': {
+  //       target: 'https://zenn.dev',
+  //       changeOrigin: true,
+  //       pathRewrite: { '^/zenn': '' },
+  //     },
+  //   },
+  // },
 });
