@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 
 export default createStore({
+  modules: {
+  },
   state: {
   },
   getters: {
@@ -9,6 +11,4 @@ export default createStore({
   },
   actions: {
   },
-  modules: {
-  }
 })

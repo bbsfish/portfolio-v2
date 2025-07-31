@@ -1,0 +1,27 @@
+// 1. ブレークポイントの値をマップで一元管理 (min-width)
+//    指定した幅「以上」で適用される
+$breakpoints: (
+  // 768px以上（タブレット〜）
+  'sp': '768px',
+  // 1024px以上（PC〜）
+  'tab': '1024px'
+);
+
+// 2. メディアクエリを出力するmixin
+//    モバイルファーストなので、min-width を使用します。
+@mixin mq($breakpoint) {
+  // $breakpointsマップにキーが存在するかチェック
+  @if map-has-key($breakpoints, $breakpoint) {
+    // キーに対応する値（画面幅）を取得
+    $width: map-get($breakpoints, $breakpoint);
+    
+    // メディアクリを生成
+    @media (min-width: $width) {
+      // mixinに渡されたスタイルを展開
+      @content;
+    }
+  } @else {
+    // 存在しないキーが指定された場合は警告を出力
+    @warn "ブレークポイント `#{$breakpoint}` は$breakpointsマップに定義されていません。";
+  }
+}
