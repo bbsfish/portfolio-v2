@@ -8,13 +8,13 @@ module.exports = defineConfig({
       title: "細田佳希のポートフォリオ"
     }
   },
-  // devServer: {
-  //   proxy: {
-  //     '/zenn': {
-  //       target: 'https://zenn.dev',
-  //       changeOrigin: true,
-  //       pathRewrite: { '^/zenn': '' },
-  //     },
-  //   },
-  // },
+  devServer: {
+    proxy: {
+      '/zenn': {
+        target: 'https://zenn.dev',
+        changeOrigin: true,
+        pathRewrite: { '^/zenn': '' },
+      },
+    },
+  },
 });

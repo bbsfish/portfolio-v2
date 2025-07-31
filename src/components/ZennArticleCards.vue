@@ -40,7 +40,9 @@ export default {
       return 'https://zenn.dev' + path;
     },
     async getArticles(limit) {
-      let { articles } = await getJSON('https://zenn.dev/api/articles?username=bbsfish');
+      const data = await getJSON('/zenn/api/articles?username=bbsfish');
+      if (data === null) return [];
+      let { articles } = data;
       // let { articles } = await getJSON('/zenn/api/articles?username=bbsfish');
       // 記事の時間情報を付与して、大きい順に並べ替える
       articles = articles.map((e) => {
@@ -64,7 +66,6 @@ export default {
   },
   async mounted() {
     const obj = await this.getArticles(this.limit);
-    console.log(obj);
     if (obj !== null) this.articles = obj;
     this.$emit('onload');
   },

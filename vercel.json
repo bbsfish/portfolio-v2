@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/zenn/:path*",
+      "destination": "https://zenn.dev/:path*"
+    }
+  ]
+}
