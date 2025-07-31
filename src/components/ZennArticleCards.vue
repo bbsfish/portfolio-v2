@@ -40,7 +40,8 @@ export default {
       return 'https://zenn.dev' + path;
     },
     async getArticles(limit) {
-      let { articles } = await getJSON('/zenn/api/articles?username=bbsfish');
+      let { articles } = await getJSON('https://zenn.dev/api/articles?username=bbsfish');
+      // let { articles } = await getJSON('/zenn/api/articles?username=bbsfish');
       // 記事の時間情報を付与して、大きい順に並べ替える
       articles = articles.map((e) => {
 				e.published_timestamp = new Date(e.published_at).getTime();
@@ -51,7 +52,7 @@ export default {
       articles = articles.slice(0, limit);
 			// articles のそれぞれの要素に days_ago を追加する
       for (let i = 0; i < articles.length; i++) {
-        const { title, emoji, body_updated_at, published_at, published_timestamp, path, article_type } = articles[i];
+        const { title, emoji, published_at, published_timestamp, path, article_type } = articles[i];
 				// 公開日時が何日前かを表す days_ago を作る
 				const currentTimestamp = new Date().getTime();
 				const difference = currentTimestamp - published_timestamp;
@@ -63,6 +64,7 @@ export default {
   },
   async mounted() {
     const obj = await this.getArticles(this.limit);
+    console.log(obj);
     if (obj !== null) this.articles = obj;
     this.$emit('onload');
   },
