@@ -56,7 +56,7 @@
       <p>
         アーティストである友人が制作したインディーズゲームの作品を紹介する、ポートフォリオサイトを構築しました。
         本サイトには、アーティストのプロフィール紹介、作品ギャラリー、新着情報の掲載機能があります。
-        最大の特長は、<strong>専門知識がない方でも簡単にコンテンツを更新できる点です</strong>。
+        最大の特長は、専門知識がない方でも簡単にコンテンツを更新できる点です。
         CMS（コンテンツ管理システム）を導入し、HTMLを直接編集することなく、手軽に作品の追加や情報の更新を行えるよう設計しました。
       </p>
       <h3>実装のポイント</h3>
@@ -64,27 +64,27 @@
       <h4>CMS：低コストで運用可能なCockpit</h4>
       <p>
         CMSには、PHPサーバーで動作するオープンソースのヘッドレスCMS「<a href="https://getcockpit.com/" target="_blank" rel="noopener noreferrer">Cockpit</a>」を採用しました。
-        これにより、<strong>サーバー費用を抑えつつ、柔軟なコンテンツ管理を実現しています</strong>。
+        これにより、サーバー費用を抑えつつ、柔軟なコンテンツ管理を実現しています。
       </p>
       <h4>フロントエンド：AstroによるSSR（サーバーサイドレンダリング）</h4>
       <p>
         フロントエンドには「<a href="https://astro.build/" target="_blank" rel="noopener noreferrer">Astro</a>」を使用しています。
-        当初は静的サイトとしての利用を想定していましたが、CMSによる動的なコンテンツ更新の要件を満たすため、最終的に<strong>SSR（サーバーサイドレンダリング）モードで動作</strong>させています。
+        当初は静的サイトとしての利用を想定していましたが、CMSによる動的なコンテンツ更新の要件を満たすため、最終的にSSR（サーバーサイドレンダリング）モードで動作させています。
         デプロイには「<a href="https://vercel.com/" target="_blank" rel="noopener noreferrer">Vercel</a>」を利用し、GitHubリポジトリと連携したCI/CD環境を構築しています。
       </p>
       <h4>UX改善：作品ギャラリーの遅延読み込み</h4>
       <p>
-        作品ギャラリーの画像は、ページの初期表示速度を最適化するため、<strong>クライアントサイドで遅延読み込み</strong>させています。
+        作品ギャラリーの画像は、ページの初期表示速度を最適化するため、クライアントサイドで遅延読み込みさせています。
         最初に表示する作品数を制限し、「Watch More」ボタンがクリックされるたびに非同期で追加の作品を読み込む仕組みです。
         これにより、軽快なユーザー体験を損なうことなく、多くの作品を掲載できます。
       </p>
 
-      <h2>個人情報をローカルで取り扱うSSOアプリケーション: <a href="https://hashed-potato-v3.vercel.app/#/" target="_blank" rel="noopener noreferrer">公開ページはこちら</a></h2>
+      <h2>個人情報をローカルで取り扱うSSOアプリケーション: <a href="https://hashed-potato-v3.vercel.app/#/" target="_blank" rel="noopener noreferrer">こちら</a></h2>
       <img src="/img/hashed-potato-dev.png" alt="個人情報をローカルで取り扱うSSOアプリケーションのスクリーンショット" />
       <h3>コンセプト：ローカル中心の新しいSSO</h3>
       <p>
         Webサービスが急増する現代において、ユーザーは多数のアカウント管理を強いられています。
-        既存のシングルサインオン（SSO）はクラウドベースのものが主流ですが、本プロジェクトでは<strong>個人情報をローカル環境で安全に取り扱う</strong>、新しいSSOの仕組みを考案・開発しました。
+        既存のシングルサインオン（SSO）はクラウドベースのものが主流ですが、本プロジェクトでは個人情報をローカル環境で安全に取り扱う、新しいSSOの仕組みを考案・開発しました。
         これは、各種Web APIを組み合わせることで実現可能です。
       </p>
       <h3>フロントエンド：PWAとして実装</h3>
@@ -97,27 +97,29 @@
       </ul>
       <h3>バックエンド：エージェントサーバー</h3>
       <p>
-        認証情報を仲介するエージェントサーバーは、当初Express.jsで構築していました。現在は開発フェーズとして、<strong>Firebase (Cloud Firestore)</strong> と <strong>Google Apps Script (GAS)</strong> を用いて、HTTPリクエストを処理する簡易的なシステムを運用しています。
+        認証情報を仲介するエージェントサーバーは、当初Express.jsで構築していました。現在は開発フェーズとして、Firebase (Cloud Firestore) と Google Apps Script (GAS) を用いて、HTTPリクエストを処理する簡易的なシステムを運用しています。
       </p>
 
       <h2>LINEで手軽に記録、クレジットカード決済管理アプリ</h2>
       <div class="image-gallery">
-        <figure>
-          <img src="/img/ly.cf067016.cloudfree.jp.png" alt="決済の手動登録画面">
-          <figcaption>決済の手動登録画面</figcaption>
-        </figure>
-        <figure>
-          <img src="/img/ly.cf067016.cloudfree.jp_2.png" alt="決済記録の確認画面">
-          <figcaption>決済記録の確認画面</figcaption>
-        </figure>
-        <figure>
-          <img src="/img/ly.cf067016.cloudfree.jp_3.jpg" alt="LINEでの決済通知画面">
-          <figcaption>LINEでの決済通知</figcaption>
-        </figure>
+        <div class="image-gallery-inner">
+          <figure>
+            <img src="/img/ly.cf067016.cloudfree.jp.png" alt="決済の手動登録画面" />
+            <figcaption>決済の手動登録画面</figcaption>
+          </figure>
+          <figure>
+            <img src="/img/ly.cf067016.cloudfree.jp_2.png" alt="決済記録の確認画面" />
+            <figcaption>決済記録の確認画面</figcaption>
+          </figure>
+          <figure>
+            <img src="/img/ly.cf067016.cloudfree.jp_3.jpg" alt="LINEでの決済通知画面" />
+            <figcaption>LINEでの決済通知</figcaption>
+          </figure>
+        </div>
       </div>
       <h3>概要</h3>
       <p>
-        クレジットカードの利用状況を、<strong>毎日使うLINEアプリから手軽に記録・管理できるWebアプリケーション</strong>です。カード会社からの利用通知メールをトリガーにLINEで決済内容を通知。ユーザーはチャット画面から支出を記録でき、使いすぎの防止や家計管理の手間を大幅に削減します。
+        クレジットカードの利用状況を、毎日使うLINEアプリから手軽に記録・管理できるWebアプリケーションです。カード会社からの利用通知メールをトリガーにLINEで決済内容を通知。ユーザーはチャット画面から支出を記録でき、使いすぎの防止や家計管理の手間を大幅に削減します。
       </p>
       <h3>主な機能</h3>
       <ul>
@@ -136,7 +138,7 @@
       </ul>
       <h3>このアプリで解決できること</h3>
       <p>
-        「カードを使うたびに家計簿アプリを開くのが面倒」「いつの間にかカードを使いすぎてしまう」といった課題を、<strong>最も身近なコミュニケーションツールであるLINEを活用</strong>することで解決。簡単・確実に支出を把握し、スマートな家計管理をサポートします。
+        「カードを使うたびに家計簿アプリを開くのが面倒」「いつの間にかカードを使いすぎてしまう」といった課題を、最も身近なコミュニケーションツールであるLINEを活用することで解決。簡単・確実に支出を把握し、スマートな家計管理をサポートします。
       </p>
     </section>
 
@@ -215,6 +217,14 @@ export default {
       align-items: center;
       height: 10rem;
     }
+  }
+}
+.image-gallery {
+  overflow-x: scroll;
+  .image-gallery-inner {
+    width: 1000px;
+    height: 600px;
+    display: flex;
   }
 }
 </style>

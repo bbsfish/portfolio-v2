@@ -4,6 +4,7 @@
   </header>
   <main>
     <router-view />
+    <IconArrowUp v-show="isTopButtonVisible" class="go-top-button" @click="goPageTop" />
   </main>
   <footer>
     <AppFooter />
@@ -13,15 +14,52 @@
 <script>
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import IconArrowUp from '@/components/icons/IconArrowUp.vue';
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     AppFooter,
+    IconArrowUp,
+  },
+  data() {
+    return {
+      prevPageName: 'Home', // 前回ページの名前
+      isTopButtonVisible: false, // トップへ戻るボタンの表示設定
+      lastScrollY: 0, // 前回のスクロール位置
+    };
+  },
+  methods: {
+    handleScroll() {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 100) {
+        // ページ上部では常に非表示
+        this.isTopButtonVisible = false;
+      } else if (currentScrollY < this.lastScrollY) {
+        // スクロールアップした場合
+        this.isTopButtonVisible = true;
+      } else {
+        // スクロールダウンした場合
+        this.isTopButtonVisible = false;
+      }
+      this.lastScrollY = currentScrollY;
+    },
+    goPageTop() {
+      this.$refs.top.scrollIntoView({
+        behavior: 'smooth',
+      });
+    },
   },
   watch: {
     $route(to) {
+      if (to.name !== this.prevPageName) {
+        this.$refs.top.scrollIntoView({
+          behavior: 'smooth',
+        });
+        this.prevPageName = to.name;
+      }
       if (to.hash === '#top') {
         this.$refs.top.scrollIntoView({
           behavior: 'smooth',
@@ -29,10 +67,18 @@ export default {
       }
     },
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
 };
 </script>
 
 <style lang="scss">
+@use '@/styles/variables.scss' as var;
+
 *,
 *::before,
 *::after {
@@ -52,20 +98,35 @@ html, body {
 #app {
   display: flex;
   flex-direction: column; // 子要素を縦に並べる
-  min-height: 100vh;     // コンテナの高さを最低でも画面の高さにする
+  min-height: 100vh; // コンテナの高さを最低でも画面の高さにする
 }
 main {
   margin-top: 60px;
   padding: 0 1rem;
 }
 footer {
-  // このプロパティが残りのスペースを全て埋めるように命令します
   flex-grow: 1; 
-  // ここで好きな背景色を指定します
-  background-color: #333; // 例：薄い青色
-  // フッター内のコンテンツを整えるためのスタイル（任意）
+  background-color: #333;
   padding: 1rem;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
+}
+.go-top-button {
+  position: fixed;
+  width: 5rem;
+  height: 4rem;
+  right: 1rem;
+  bottom: 1rem;
+  background-color: white;
+  opacity: 0.6;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  @include var.mq('tab') {
+    right: 3rem;
+    bottom: 6rem;
+  }
 }
 </style>

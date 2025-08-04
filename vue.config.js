@@ -4,8 +4,13 @@ module.exports = defineConfig({
   transpileDependencies: true,
   pages: {
     index: {
-      entry: "src/main.js",
-      title: "細田佳希のポートフォリオ"
+      entry: 'src/main.js',
+      title: '細田佳希のポートフォリオ'
+    }
+  },
+  pwa: {
+    iconPaths: {
+      favicon32: 'favicon.ico',
     }
   },
   devServer: {

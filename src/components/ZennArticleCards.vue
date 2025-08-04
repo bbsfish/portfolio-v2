@@ -43,7 +43,6 @@ export default {
       const data = await getJSON('/zenn/api/articles?username=bbsfish');
       if (data === null) return [];
       let { articles } = data;
-      // let { articles } = await getJSON('/zenn/api/articles?username=bbsfish');
       // 記事の時間情報を付与して、大きい順に並べ替える
       articles = articles.map((e) => {
 				e.published_timestamp = new Date(e.published_at).getTime();

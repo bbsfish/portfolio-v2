@@ -21,7 +21,11 @@ $breakpoints: (
       @content;
     }
   } @else {
-    // 存在しないキーが指定された場合は警告を出力
-    @warn "ブレークポイント `#{$breakpoint}` は$breakpointsマップに定義されていません。";
+    // ブレイクポイントを直接指定した場合（存在しないキーが指定された場合）はその幅でブレイクポイントを設定
+    // @warn "ブレークポイント `#{$breakpoint}` は$breakpointsマップに定義されていません。";
+    @media (min-width: $breakpoint) {
+      // mixinに渡されたスタイルを展開
+      @content;
+    }
   }
 }
