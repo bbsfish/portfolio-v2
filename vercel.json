@@ -3,6 +3,10 @@
     {
       "source": "/zenn/:path*",
       "destination": "https://zenn.dev/:path*"
+    },
+    {
+      "source": "/whatistoday/:path*",
+      "destination": "https://api.whatistoday.cyou/:path*"
     }
   ]
 }
