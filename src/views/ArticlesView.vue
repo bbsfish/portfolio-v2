@@ -2,18 +2,18 @@
   <div class="articles-view">
     <h1>Zenn の投稿記事一覧</h1>
     <loading v-model:active="isZennArticlesLoading" :is-full-page="true" loader="dots" color="#333" />
-    <ZennArticleCards v-show="!isZennArticlesLoading" :limit="50" @onload="isZennArticlesLoading = false" />
+    <ZennArticleCard v-show="!isZennArticlesLoading" :limit="50" @onload="isZennArticlesLoading = false" />
   </div>
 </template>
 
 <script>
 import Loading from 'vue-loading-overlay';
-import ZennArticleCards from '@/components/ZennArticleCards.vue';
+import ZennArticleCard from '@/components/ZennArticleCard.vue';
 
 export default {
   name: 'ArticlesView',
   components: {
-    ZennArticleCards,
+    ZennArticleCard,
     Loading,
   },
   data() {

@@ -43,6 +43,7 @@ export default {
       } else {
         // スクロールダウンした場合
         this.isTopButtonVisible = false;
+        if (this.$route.hash === '#top') this.$router.push({ hash: '' });
       }
       this.lastScrollY = currentScrollY;
     },

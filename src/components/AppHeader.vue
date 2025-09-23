@@ -12,6 +12,7 @@
       <ul class="nav__list">
         <li class="nav__item"><router-link :to="getUrlHash('/')" class="nav__link" @click="isMenuOpen = false">Home</router-link></li>
         <li class="nav__item"><router-link :to="getUrlHash('/articles')" class="nav__link" @click="isMenuOpen = false">Articles</router-link></li>
+        <li class="nav__item"><router-link :to="getUrlHash('/tetris')" class="nav__link" @click="isMenuOpen = false">Tetris</router-link></li>
         <li class="nav__item"><router-link :to="getUrlHash('/contact')" class="nav__link" @click="isMenuOpen = false">Contact</router-link></li>
       </ul>
     </nav>

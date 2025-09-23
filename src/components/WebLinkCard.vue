@@ -24,7 +24,7 @@ export default {
       },
       icon: {
         type: String,
-        default: '/img/logo.png',
+        default: '',
       },
       name: {
         type: String,

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getJSON } from '@/lib/fetch-api.js';
+import { get } from '@/lib/api.js';
 
 export default {
 	name: 'ZennArticleCards',
@@ -40,7 +40,7 @@ export default {
       return 'https://zenn.dev' + path;
     },
     async getArticles(limit) {
-      const data = await getJSON('/zenn/api/articles?username=bbsfish');
+      const data = await get('/zenn/api/articles?username=bbsfish');
       if (data === null) return [];
       let { articles } = data;
       // 記事の時間情報を付与して、大きい順に並べ替える

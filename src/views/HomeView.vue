@@ -6,6 +6,8 @@
         <div>
           <p>こんにちは</p>
           <p>細田佳希のポートフォリオです</p>
+          <p>今日は {{ today }} ですね</p>
+          <p v-if="famousBirthday !== null">{{ famousBirthday.profile }}、{{ famousBirthday.name }}の誕生日だそうです</p>
         </div>
       </div>
     </div>
@@ -21,7 +23,7 @@
 
     <h1 id="articles">記事</h1>
     <section>
-      <ZennArticleCards :limit="3" />
+      <ZennArticleCard :limit="3" />
       <router-link to="/articles" class="AllArticlesButton">すべて表示</router-link>
     </section>
 
@@ -154,14 +156,42 @@
 </template>
 
 <script>
-import ZennArticleCards from '@/components/ZennArticleCards.vue';
+import { get } from '@/lib/api';
+import ZennArticleCard from '@/components/ZennArticleCard.vue';
 import WebLinkCard from '@/components/WebLinkCard.vue';
 
 export default {
   name: "HomeView",
   components: {
-    ZennArticleCards,
+    ZennArticleCard,
     WebLinkCard,
+  },
+  data() {
+    return {
+      /** @type { id: Number, mmdd: String, lifespan: String, name: String, profile: String } */
+      famousBirthday: null,
+    };
+  },
+  computed: {
+    now: function() {
+      return new Date();
+    },
+    today: function() {
+      return this.now.toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        weekday: 'short',
+      });
+    },
+  },
+  async mounted() {
+    const mmdd = (() => {
+      const options = { month: '2-digit', day: '2-digit' };
+      const formattedDate = new Intl.DateTimeFormat('ja-JP', options).format(this.now).replace(/\//g, '');
+      return formattedDate;
+    })();
+    this.famousBirthday = await get('/whatistoday/index.cgi/v3/famousbirthday/%s', mmdd);
   },
   head() {
     return {

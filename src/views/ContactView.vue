@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { post } from '@/lib/api';
+
 export default {
   data() {
     return {
@@ -59,14 +61,15 @@ export default {
       this.errorMessage = '';
 
       try {
-        const response = await fetch(this.gasWebAppUrl, {
-          method: 'POST',
-          mode: 'no-cors', // CORSエラーを回避するため
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(this.form),
-        });
+        // const response = await fetch(this.gasWebAppUrl, {
+        //   method: 'POST',
+        //   mode: 'no-cors', // CORSエラーを回避するため
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(this.form),
+        // });
+        const response = await post(this.gasWebAppUrl, this.form);
 
         // no-corsモードではレスポンスの詳細が取得できないため、
         // リクエストが成功したと見なして処理を進めます。

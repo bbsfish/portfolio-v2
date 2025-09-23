@@ -20,6 +20,11 @@ module.exports = defineConfig({
         changeOrigin: true,
         pathRewrite: { '^/zenn': '' },
       },
+      '/whatistoday': {
+        target: 'https://api.whatistoday.cyou',
+        changeOrigin: true,
+        pathRewrite: { '^/whatistoday': '' },
+      },
     },
   },
 });
