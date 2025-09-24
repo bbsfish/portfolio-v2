@@ -61,22 +61,14 @@ export default {
       this.errorMessage = '';
 
       try {
-        // const response = await fetch(this.gasWebAppUrl, {
-        //   method: 'POST',
-        //   mode: 'no-cors', // CORSエラーを回避するため
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(this.form),
-        // });
         const response = await post(this.gasWebAppUrl, this.form);
 
-        // no-corsモードではレスポンスの詳細が取得できないため、
-        // リクエストが成功したと見なして処理を進めます。
-        this.successMessage = 'お問い合わせありがとうございます。メッセージが正常に送信されました。';
-        
+        if (response.status === 'success') {
+          this.successMessage = 'お問い合わせありがとうございます。メッセージが正常に送信されました。';
+          return;
+        }
+        throw new Error(response.message);
       } catch (error) {
-        console.error('送信エラー:', error);
         this.errorMessage = 'メッセージの送信に失敗しました。時間をおいて再度お試しください。';
       } finally {
         this.isSubmitting = false;

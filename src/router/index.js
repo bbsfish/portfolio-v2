@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TetrisView from '@/views/TetrisView.vue';
 import ArticlesView from '@/views/ArticlesView.vue';
 import ContactView from '@/views/ContactView.vue';
 import HomeView from '@/views/HomeView.vue';
@@ -7,20 +6,6 @@ import HomeView from '@/views/HomeView.vue';
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
-    {
-      path: '/tetris',
-      name: 'Tetris',
-      component: TetrisView,
-      meta: {
-        title: 'Zenn掲載記事一覧',
-        description: `
-          このウェブサイトは、bbsfishがZennに投稿した技術記事の一覧ページ。
-          内容はJavaScript、NodeJS、Google Apps Script、Vue.js、Docker、各種API（LINE、Gmail、Gemini）の活用法など、
-          フロントエンドからバックエンドまで多岐にわたるウェブ開発技術を網羅している。`,
-        og_title: '細田佳希によるZenn掲載記事一覧',
-        og_description: 'bbsfishがZennで公開した技術記事一覧。JavaScript、Node.js、GAS、API連携など、Web開発に関する実践的なTIPSを多数掲載している。'
-      },
-    },
     {
       path: '/articles',
       name: 'Articles',

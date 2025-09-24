@@ -1,3 +1,7 @@
+export {
+	get, getText, post,
+};
+
 async function get(endpoint, ...params) {
 	if (params.length > 0) params.forEach((prm) => endpoint = endpoint.replace('%s', prm));
 	try {
@@ -32,7 +36,7 @@ async function post(endpoint, payload) {
 			method: 'POST',
 			body: JSON.stringify(payload),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'text/plain;charset=utf-8'
 			},
 		}
 		const response = await fetch(endpoint, options);
@@ -45,7 +49,3 @@ async function post(endpoint, payload) {
 		throw new Error(error.message ?? '未知のエラーが発生しました');
 	}
 }
-
-export {
-	get, getText, post,
-};
