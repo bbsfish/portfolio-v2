@@ -1,3 +1,14 @@
+// カラーコード変数
+$bk: black;
+$wt: white;
+$bt: rgb(11, 31, 214);
+$ac: rgb(255, 52, 52);
+$border-color: gray;
+$shadow-color: rgba(0, 0, 0, 0.3);
+
+// 共通スタイル変数
+$header-height: 60px;
+
 // 1. ブレークポイントの値をマップで一元管理 (min-width)
 //    指定した幅「以上」で適用される
 $breakpoints: (

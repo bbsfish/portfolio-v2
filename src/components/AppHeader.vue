@@ -1,18 +1,18 @@
 <template>
-  <div class="header" :class="{ 'is-hidden': !isHeaderVisible }">
-    <router-link :to="getUrlHash('/')" class="header__logo">My Portfolio</router-link>
+  <div class="app-header" :class="{ pc: isPC, visible: isHeaderVisible }">
+    <router-link :to="getUrlHash('/')" class="logo">My Portfolio</router-link>
 
-    <button @click="toggleMenu" class="header__burger-btn" type="button" aria-label="メニューを開く">
-      <span class="line"></span>
-      <span class="line"></span>
-      <span class="line"></span>
+    <button class="burger-button" type="button" aria-label="メニューを開く" @click="isMenuVisible = !isMenuVisible">
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
 
-    <nav class="nav" :class="{ 'is-open': isMenuOpen }">
-      <ul class="nav__list">
-        <li class="nav__item"><router-link :to="getUrlHash('/')" class="nav__link" @click="isMenuOpen = false">Home</router-link></li>
-        <li class="nav__item"><router-link :to="getUrlHash('/articles')" class="nav__link" @click="isMenuOpen = false">Articles</router-link></li>
-        <li class="nav__item"><router-link :to="getUrlHash('/contact')" class="nav__link" @click="isMenuOpen = false">Contact</router-link></li>
+    <nav class="menu" :class="{ open: isMenuVisible }">
+      <ul>
+        <li><router-link :to="getUrlHash('/')" @click="isMenuVisible = false">Home</router-link></li>
+        <li><router-link :to="getUrlHash('/articles')" @click="isMenuVisible = false">Articles</router-link></li>
+        <li><router-link :to="getUrlHash('/contact')" @click="isMenuVisible = false">Contact</router-link></li>
       </ul>
     </nav>
   </div>
@@ -23,49 +23,62 @@ export default {
   name: 'AppHeader',
   data() {
     return {
-      isMenuOpen: false, // ハンバーガーメニューの開閉状態
       isHeaderVisible: true, // ヘッダーの表示状態
-      lastScrollY: 0, // 前回のスクロール位置
+      isPC: false, // PC デバイスかどうか
+      isMenuVisible: false, // メニューの表示状態
+      headerTop: '0px', // ヘッダーの初期位置
+      lastTop: 0, // 最後のヘッダー位置
+      scr: 0, // 現在のスクロール位置
+      timeout: null, // スクロールイベントのタイムアウトID
     };
   },
   mounted() {
     // スクロールイベントをリッスン
-    window.addEventListener('scroll', this.handleScroll);
+    this.handleResize(); // 初期表示時に画面サイズをチェック
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', () => this.scr = window.scrollY);
   },
   beforeUnmount() {
     // コンポーネント破棄時にイベントリスナーを削除
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', () => this.scr = window.scrollY);
   },
   methods: {
-    /**
-     * ハンバーガーメニューの開閉を切り替えます。
-     */
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-    },
-    /**
-     * スクロールを検知してヘッダーの表示を制御します。
-     */
-    handleScroll() {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY <= 100) {
-        // ページ上部では常に表示
-        this.isHeaderVisible = true;
-      } else if (currentScrollY < this.lastScrollY) {
-        // スクロールアップした場合
-        this.isHeaderVisible = true;
-      } else {
-        // スクロールダウンした場合
-        this.isHeaderVisible = false;
-      }
-      this.lastScrollY = currentScrollY;
-    },
+    handleResize() {
+			const w = window.innerWidth;
+			if (w < 700) this.isPC = false;
+			else this.isPC = true;
+		},
     getUrlHash(url) {
       if (this.$route.path === url) {
         return `${url}#top`;
       }
       return url;
+    },
+  },
+  watch: {
+    scr(to) {
+      const delay = 150;
+      const headerHeight = 60;
+			if (to < this.lastTop) {
+				// スクロールアップした場合に実行するもの
+				if (this.timeout) clearTimeout(this.timeout);
+				this.timeout = setTimeout(() => {
+					this.isHeaderVisible = true;
+					this.isMenuOpen = false;
+					this.lastTop = to;
+				}, delay);
+				if (!this.isHeaderVisible) this.headerTop = String(-1*headerHeight + Math.min(this.lastTop - to, headerHeight)) + 'px';
+			}	else {
+				// スクロールダウン
+				if (this.timeout) clearTimeout(this.timeout);
+				this.timeout = setTimeout(() => {
+					this.isHeaderVisible = false;
+					this.isMenuOpen = true;
+					this.lastTop = to;
+				}, delay);
+				if (this.isHeaderVisible) this.headerTop = String(-1*(Math.min(to - this.lastTop, headerHeight))) + 'px';
+			}
     },
   },
 };
@@ -76,34 +89,30 @@ export default {
 
 // --- 変数定義 ---
 $breakpoint-pc: 768px; // ブレークポイント
-$header-height: 60px;   // ヘッダーの高さ
-$bg-color: #333;
 $nav-bg-color: rgba(0, 0, 0, 0.9);
 $font-color: #fff;
 
 // --- 基本のヘッダースタイル ---
-.header {
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
-  top: 0;
+  top: v-bind(headerTop);
   left: 0;
   width: 100%;
-  height: $header-height;
+  height: var.$header-height;
   padding: 0 1rem;
-  background-color: $bg-color;
+  background-color: #333;
   color: $font-color;
   z-index: 1000;
-  transition: transform 0.3s ease-in-out;
 
-  // ヘッダー非表示時のスタイル
-  &.is-hidden {
-    transform: translateY(-100%);
+  &.visible {
+    box-shadow: 0 2px 4px var.$shadow-color;
   }
 }
 
-.header__logo {
+.logo {
   font-weight: bold;
   font-size: 1.2rem;
   color: $font-color;
@@ -112,7 +121,7 @@ $font-color: #fff;
 }
 
 // --- ハンバーガーメニュー（モバイル） ---
-.header__burger-btn {
+.burger-button {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -124,7 +133,7 @@ $font-color: #fff;
   padding: 0;
   z-index: 1001; // メニューが開いてもボタンが最前面に来るように
 
-  .line {
+  span {
     display: block;
     width: 100%;
     height: 2px;
@@ -133,67 +142,69 @@ $font-color: #fff;
 }
 
 // --- ナビゲーションメニュー（モバイル） ---
-.nav {
+.menu {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   background-color: $nav-bg-color;
-  // 初期状態では画面外に隠す
-  transform: translateX(100%);
+  transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  // メニュー表示時のスタイル
-  &.is-open {
-    transform: translateX(0);
+  &.open {
+    transform: translateY(0);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+
+    li {
+      margin: 2rem 0;
+
+      a {
+        color: $font-color;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
   }
 }
-.nav__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-.nav__item {
-  margin: 2rem 0;
-}
-.nav__link {
-  color: $font-color;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
 
-// --- PC向けスタイル (768px以上) ---
-@include var.mq('tab') {
-  // ハンバーガーボタンを非表示に
-  .header__burger-btn {
+.app-header.pc {
+  .burger-button {
     display: none;
   }
 
   // ナビゲーションメニューをヘッダー内に配置
-  .nav {
+  .menu {
     position: static;
     height: auto;
     width: auto;
     background-color: transparent;
-    transform: none; // transformをリセット
-    transition: none; // transitionをリセット
-  }
-  .nav__list {
-    display: flex;
-    align-items: center;
-  }
-  .nav__item {
-    margin: 0 0 0 1.5rem;
-  }
-  .nav__link {
-    font-size: 1rem;
-    font-weight: normal;
+    transform: none; // transform をリセット
+    transition: none; // transition をリセット
+
+    ul {
+      display: flex;
+      align-items: center;
+
+      li {
+        margin: 0 0 0 1.5rem;
+
+        a {
+          font-size: 1rem;
+          font-weight: normal;
+        }
+      }
+    }
   }
 }
 </style>
